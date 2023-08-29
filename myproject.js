@@ -146,7 +146,17 @@ console.log(orientation+': '+~~(wide/100/ratio)+' x '+~~(high/100/ratio))
 
 
 //setup the project variables
+var origin = new Point(R.random_int(0, wide), R.random_int(0, high));
+var spokes = R.random_int(6, 30)
+var wavyness = R.random_int(10, 250);
+var distribution = ~~(noise.get(50)*(high+wide));
+var swirly = ~~(noise.get(150)*50);
 
+console.log("Origin: "+origin);
+console.log("Spokes: "+spokes);
+console.log("Wavyness: "+Math.floor(wavyness/ 10) * 10);
+console.log("Density: "+Math.floor(distribution/ 100) * 100);
+console.log("Swirlyness: "+swirly);
 
 //Pick layer colors from a random pallete based on tint library
 for (var c=0; c<numofcolors; c=c+1){palette[c] = tints[R.random_int(0, tints.length-1)];};    
@@ -172,7 +182,7 @@ linecolor={"Hex":"#4C4638", "Name":"Mocha"};
 
 
 sheet = []; //This will hold each layer
-var punchX =[];
+
 
 
 var px=0;var py=0;var pz=0;var prange=.1; 
@@ -186,12 +196,14 @@ var center = new Point(wide/2,high/2)
 for (z = 0; z < stacks; z++) {
     pz=z*prange;
     drawFrame(z); // Draw the initial frame
-    if(z==0){solid(z)}
+    //if(z==0){solid(z)}
 
          //-----Draw each layer
         if(z<stacks-1 && z!=0 ){
             if (z==stacks-2){oset = minOffset}else{oset = ~~(minOffset*(stacks-z-1))}
-            somelines(z); 
+            rays(z);
+            
+
 
         }
         
@@ -262,6 +274,67 @@ function somelines(z){
         mesh.remove();
 
     
+}
+
+function rays(z){
+            p = [];
+            for (l=0; l<spokes; l++){
+                p[0] =  new Point(0,0);
+                p[1] = new Point(~~(distribution*.2),~~(wavyness*(z/swirly)));
+                p[2] = new Point(~~(distribution*.3),~~(-wavyness*(z/swirly)));
+                p[3] = new Point(~~(distribution*.4),~~(wavyness*(z/swirly)));
+                p[4] = new Point(~~(distribution*.5),~~(-wavyness*(z/swirly)));
+                p[5] = new Point(~~(distribution*.6),~~(wavyness*(z/swirly)));
+                p[6] = new Point(~~(distribution*.7),~~(-wavyness*(z/swirly)));
+                p[7] = new Point(~~(distribution*.8),~~(wavyness*(z/swirly)));
+                p[8] = new Point(~~(wide+high),~~(-wavyness*(z/swirly)));
+                lines = new Path();
+                lines.add(p[0]);
+                lines.add(p[1]);
+                lines.add(p[2]);
+                lines.add(p[3]);
+                lines.add(p[4]);
+                lines.add(p[5]); 
+                lines.add(p[6]); 
+                lines.add(p[7]); 
+                lines.add(p[8]);  
+                //lines = new Path.Line (p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8]);          
+                lines.smooth();
+
+                
+
+                mesh = PaperOffset.offsetStroke(lines, minOffset,{ cap: 'butt' });
+                 //mesh.position += origin;
+                mesh.flatten(4);
+                mesh.smooth();
+                lines.remove();
+                
+                for (n=2;n<7;n++){
+                    if (noise.get(l,n,z)>.4){
+                        var circlePath = new Path.Circle(p[n-1], noise.get(l,n)*(minOffset*2)*(z+1));
+                        mesh = mesh.subtract(circlePath);
+                        
+                        
+                        ring = PaperOffset.offsetStroke(circlePath, minOffset, { cap: 'round' })
+                        mesh = mesh.unite(ring);
+                        ring.remove();
+                        circlePath.remove();
+                        project.activeLayer.children[project.activeLayer.children.length-2].remove();
+                        project.activeLayer.children[project.activeLayer.children.length-2].remove();
+                    }
+                } 
+
+
+                mesh.rotate(~~(365/spokes*l),p[0]);
+                mesh.position.x += origin.x;
+                mesh.position.y += origin.y;
+
+                join(z,mesh)
+                //sheet[z] = mesh.unite(sheet[z]);
+                mesh.remove();  
+                //project.activeLayer.children[project.activeLayer.children.length-2].remove();
+            }
+
 }
 
 
