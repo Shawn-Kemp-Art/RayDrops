@@ -1,5 +1,5 @@
 
-document.body.innerHTML = '<style>div{color: grey;text-align:center;position:absolute;margin:auto;top:0;right:0;bottom:0;left:0;width:500px;height:100px;}</style><body><div id="loading"><h1>Dot and Slide</h1><p>This could take a while, please give it at least 5 minutes to render.</p><br><h3>Press <strong>?</strong> for shortcut keys</h3></div></body>';
+document.body.innerHTML = '<style>div{color: grey;text-align:center;position:absolute;margin:auto;top:0;right:0;bottom:0;left:0;width:500px;height:100px;}</style><body><div id="loading"><h1>Ray Drops</h1><p>This could take a while, please give it at least 5 minutes to render.</p><br><h1 class="spin">⏳</h1><br><h3>Press <strong>?</strong> for shortcut keys</h3><br><p><small>Output contains an embedded blueprint for creating an IRL wall sculpture</small></p></div></body>';
 paper.install(window);
 window.onload = function() {
 
@@ -149,14 +149,15 @@ console.log(orientation+': '+~~(wide/100/ratio)+' x '+~~(high/100/ratio))
 var origin = new Point(R.random_int(0, wide), R.random_int(0, high));
 var spokes = R.random_int(6, 30)
 var wavyness = R.random_int(10, 250);
-var distribution = ~~(noise.get(50)*(high+wide));
-var swirly = ~~(noise.get(150)*50);
+//var distribution = ~~(noise.get(50)*(high+wide));
+var distribution = R.random_int(200, ~~(Math.sqrt(high*high+wide*wide)));
+var swirly = R.random_int(5, 50);
 
 console.log("Origin: "+origin);
 console.log("Spokes: "+spokes);
-console.log("Wavyness: "+Math.floor(wavyness/ 10) * 10);
-console.log("Density: "+Math.floor(distribution/ 100) * 100);
+console.log("Wavyness: "+wavyness);
 console.log("Swirlyness: "+swirly);
+console.log("Distribution: "+distribution);
 
 //Pick layer colors from a random pallete based on tint library
 for (var c=0; c<numofcolors; c=c+1){palette[c] = tints[R.random_int(0, tints.length-1)];};    
@@ -287,7 +288,7 @@ function rays(z){
                 p[5] = new Point(~~(distribution*.6),~~(wavyness*(z/swirly)));
                 p[6] = new Point(~~(distribution*.7),~~(-wavyness*(z/swirly)));
                 p[7] = new Point(~~(distribution*.8),~~(wavyness*(z/swirly)));
-                p[8] = new Point(~~(wide+high),~~(-wavyness*(z/swirly)));
+                p[8] = new Point(~~(Math.sqrt(high*high+wide*wide)),~~(-wavyness*(z/swirly)));
                 lines = new Path();
                 lines.add(p[0]);
                 lines.add(p[1]);
