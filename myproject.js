@@ -102,7 +102,7 @@ var scale = 2;
 var ratio = 1/scale;//use 1/4 for 32x40 - 1/3 for 24x30 - 1/2 for 16x20 - 1/1 for 8x10
 
 var minOffset = ~~(7*ratio); //this is aproximatly .125"
-var framewidth = ~~(R.random_int(50, 50)*scale); 
+var framewidth = ~~(R.random_int(25, 25)*scale); 
 //var framewidth = 50; 
     if (qfw){framewidth=qfw};
 
@@ -339,7 +339,36 @@ function rays(z){
 }
 
 
+//--------- Finish up the preview ----------------------- 
 
+    // Build the features and trigger an fxhash preview
+    var features = {};
+    features.Size =  ~~(wide/100/ratio)+" x "+~~(high/100/ratio)+" inches";
+    //features.Orientation = orientation;
+    //features.Dahlias = numberofcircles;
+    //features.Background = backgrounds;
+    for (l=stacks;l>0;l--){
+    var key = "layer: "+(stacks-l+1)
+    features[key] = colors[l-1].Name
+    }
+    console.log(features);
+    $fx.features(features);
+    //$fx.preview();
+
+      var finalTime = new Date().getTime();
+    var renderTime = (finalTime - initialTime)/1000
+    console.log ('Render took : ' +  renderTime.toFixed(2) + ' seconds' );
+
+
+        if (testingGo == 'true'){refreshit();}
+
+        async function refreshit() {
+        //setquery("fxhash",null);
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 3 sec
+        canvas.toBlob(function(blob) {saveAs(blob, tokenData.hash+' - '+renderTime.toFixed(0)+'secs.png');});
+        await new Promise(resolve => setTimeout(resolve, 5000)); // 3 sec
+        window.open('./index.html?testing=true', '_blank');
+        }
 
 //^^^^^^^^^^^^^ END PROJECT FUNCTIONS ^^^^^^^^^^^^^ 
 
