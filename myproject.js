@@ -255,7 +255,7 @@ for (z = 0; z < stacks; z++) {
         await new Promise(resolve => setTimeout(resolve, 5000)); // 3 sec
         canvas.toBlob(function(blob) {saveAs(blob, tokenData.hash+' - '+renderTime.toFixed(0)+'secs.png');});
         await new Promise(resolve => setTimeout(resolve, 5000)); // 3 sec
-        window.open('file:///Users/shawnkemp/dev/dotandslide/DotandSlide/index.html?testing=true', '_blank');
+        window.open('./index.html?testing=true', '_blank');
         }
 
 //vvvvvvvvvvvvvvv PROJECT FUNCTIONS vvvvvvvvvvvvvvv 
@@ -339,36 +339,7 @@ function rays(z){
 }
 
 
-//--------- Finish up the preview ----------------------- 
 
-    // Build the features and trigger an fxhash preview
-    var features = {};
-    features.Size =  ~~(wide/100/ratio)+" x "+~~(high/100/ratio)+" inches";
-    //features.Orientation = orientation;
-    //features.Dahlias = numberofcircles;
-    //features.Background = backgrounds;
-    for (l=stacks;l>0;l--){
-    var key = "layer: "+(stacks-l+1)
-    features[key] = colors[l-1].Name
-    }
-    console.log(features);
-    $fx.features(features);
-    //$fx.preview();
-
-      var finalTime = new Date().getTime();
-    var renderTime = (finalTime - initialTime)/1000
-    console.log ('Render took : ' +  renderTime.toFixed(2) + ' seconds' );
-
-
-        if (testingGo == 'true'){refreshit();}
-
-        async function refreshit() {
-        //setquery("fxhash",null);
-        await new Promise(resolve => setTimeout(resolve, 5000)); // 3 sec
-        canvas.toBlob(function(blob) {saveAs(blob, tokenData.hash+' - '+renderTime.toFixed(0)+'secs.png');});
-        await new Promise(resolve => setTimeout(resolve, 5000)); // 3 sec
-        window.open('./index.html?testing=true', '_blank');
-        }
 
 //^^^^^^^^^^^^^ END PROJECT FUNCTIONS ^^^^^^^^^^^^^ 
 
