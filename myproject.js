@@ -200,7 +200,7 @@ for (z = 0; z < stacks; z++) {
     //if(z==0){solid(z)}
 
          //-----Draw each layer
-        if(z<stacks-1  ){
+        if(z<stacks-1){
             if (z==stacks-2){oset = minOffset}else{oset = ~~(minOffset*(stacks-z-1))}
             rays(z);
             
