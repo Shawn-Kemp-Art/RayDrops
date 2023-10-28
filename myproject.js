@@ -102,8 +102,8 @@ var scale = 2;
 var ratio = 1/scale;//use 1/4 for 32x40 - 1/3 for 24x30 - 1/2 for 16x20 - 1/1 for 8x10
 
 var minOffset = ~~(7*ratio); //this is aproximatly .125"
-var framewidth = ~~(R.random_int(25, 50)*scale); 
-//var framewidth = 50; 
+var framewidth = ~~(R.random_int(125, 200)*ratio); 
+//var framewidth = ~~(125*ratio); 
     if (qfw){framewidth=qfw};
 
 var framradius = 0;
@@ -122,7 +122,7 @@ paper.view.viewSize.height = 2400;
 
 var colors = []; var palette = []; 
 var woodframe = new Path();var framegap = new Path();
-var petalspiky = R.random_int(5, 15);
+//var petalspiky = R.random_int(5, 15);
 
 
 numofcolors = R.random_int(2, stacks);; //Sets the number of colors to pick for the pallete
@@ -190,6 +190,7 @@ sheet = []; //This will hold each layer
 var px=0;var py=0;var pz=0;var prange=.1; 
 
 var center = new Point(wide/2,high/2)
+var longestDim = wide;if (wide<high){longestDim=high;}
 
 
 //---- Draw the Layers
@@ -266,22 +267,7 @@ for (z = 0; z < stacks; z++) {
 
 //vvvvvvvvvvvvvvv PROJECT FUNCTIONS vvvvvvvvvvvvvvv 
  
-function somelines(z){
-        p = []
-        y = R.random_int(framewidth, high-framewidth);
-        p[0]=new Point(0,y)
-        y2 = R.random_int(framewidth, high-framewidth);
-        p[1]=new Point(wide,y2)
-        lines = new Path.Line (p[0],p[1]); 
-        mesh = PaperOffset.offsetStroke(lines, minOffset,{ cap: 'butt' });
-        mesh.flatten(4);
-        mesh.smooth();
-        lines.remove();
-        join(z,mesh); 
-        mesh.remove();
 
-    
-}
 
 function rays(z){
             p = [];
@@ -295,6 +281,7 @@ function rays(z){
                 p[6] = new Point(~~(distribution*.7),~~(-wavyness*(z/swirly)));
                 p[7] = new Point(~~(distribution*.8),~~(wavyness*(z/swirly)));
                 p[8] = new Point(~~(Math.sqrt(high*high+wide*wide)),~~(-wavyness*(z/swirly)));
+                
                 lines = new Path();
                 lines.add(p[0]);
                 lines.add(p[1]);
@@ -306,7 +293,7 @@ function rays(z){
                 lines.add(p[7]); 
                 lines.add(p[8]);  
                 //lines = new Path.Line (p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8]);          
-                lines.smooth();
+                lines.simplify(); lines.smooth(); 
 
                 
 
@@ -527,9 +514,6 @@ document.addEventListener('keypress', (event) => {
         //scale
        if(event.key == "1" || event.key =="2" ||event.key =="3" || event.key =="4") {
             setquery("scale",event.key);
-            setquery("w",5.6);
-            setquery("h",7);
-            setquery("cutmarks",1);
             location.reload();
             }
 
