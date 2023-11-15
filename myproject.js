@@ -341,7 +341,7 @@ function rays(z){
 
 
 //--------- Helper functions ----------------------- 
-unction floatingframe(){
+function floatingframe(){
     var frameWide=~~(34*ratio);var frameReveal = ~~(12*ratio);
   if (framegap.isEmpty()){
         var outsideframe = new Path.Rectangle(new Point(0, 0),new Size(~~(wide+frameReveal*2), ~~(high+frameReveal*2)), framradius)
