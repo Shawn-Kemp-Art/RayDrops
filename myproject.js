@@ -499,6 +499,15 @@ document.addEventListener('keypress', (event) => {
         if(event.key == "f") {
             floatingframe();
         }
+
+         //cycle through frame colors
+       if(event.key == "F") { 
+            i = frameColors.indexOf(fColor)+1
+            if (i==frameColors.length){i=0};
+            fColor = frameColors[i];
+            frameColor = fColor.Hex;
+            woodframe.style = {fillColor: frameColor}
+        }
         
         if(event.key == "F") {
             floatingframe();
@@ -568,7 +577,8 @@ document.addEventListener('keypress', (event) => {
                 key[stacks-l] =  colors[l-1].Name;
             }; 
             console.log(key.reverse())
-            var content = JSON.stringify(key.reverse())
+            //var content = JSON.stringify(key.reverse())
+            var content = JSON.stringify(features,null,2);
             var filename = tokenData.hash + ".txt";
             var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
             saveAs(blob, filename);
