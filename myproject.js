@@ -122,8 +122,9 @@ paper.view.viewSize.height = 2400;
 
 var colors = []; var palette = []; 
 var woodframe = new Path();var framegap = new Path();
-var frameColor = "#60513D"
-//var petalspiky = R.random_int(5, 15);
+var fColor = frameColors[R.random_int(0, frameColors.length-1)];
+var frameColor = fColor.Hex;
+console.log("Frame Color: "+fColor.Name);
 
 
 numofcolors = R.random_int(2, stacks);; //Sets the number of colors to pick for the pallete
@@ -508,12 +509,7 @@ document.addEventListener('keypress', (event) => {
             frameColor = fColor.Hex;
             woodframe.style = {fillColor: frameColor}
         }
-        
-        if(event.key == "F") {
-            floatingframe();
-            frameColor = prompt("Frame color(hex)", frameColor);
-            floatingframe();
-            }    
+          
 
 
 

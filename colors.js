@@ -59,6 +59,16 @@ var lightburn = [
 {"Hex":"#ffdb66", "Name":"29"},
 ];
 
+var frameColors = [
+{"Hex":"#60513D","Name":"Walnut"},
+{"Hex":"#f9f9f9","Name":"White"},
+{"Hex":"#c0c0c0", "Name":"Silver"},
+{"Hex":"#4C46380", "Name":"Black"},
+{"Hex":"#4b2110", "Name":"Burgundy"},
+{"Hex":"#d4af37", "Name":"Gold"},
+
+]
+
 var allColors = [
 {"Hex":"#fdf376","Name":"Buttercup"},
 {"Hex":"#c39354","Name":"Golden"},
